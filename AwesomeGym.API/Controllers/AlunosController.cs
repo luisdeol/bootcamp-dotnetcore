@@ -1,8 +1,6 @@
 ﻿using AwesomeGym.API.Entidades;
 using AwesomeGym.API.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace AwesomeGym.API.Controllers
@@ -16,7 +14,9 @@ namespace AwesomeGym.API.Controllers
         {
             _awesomeGymDbContext = awesomeDbContext;
         }
+
         // api/alunos
+        // TODO: Permitir filtro!
         [HttpGet]
         public IActionResult Get()
         {
@@ -27,7 +27,7 @@ namespace AwesomeGym.API.Controllers
 
         // api/alunos/4
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetById(int id)
         {
             var aluno = _awesomeGymDbContext.Alunos.SingleOrDefault(u => u.Id == id);
 
@@ -43,19 +43,15 @@ namespace AwesomeGym.API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Aluno aluno)
         {
-            var professor = new Professor("professor 1", "endereco 1 ", aluno.IdUnidade);
-            _awesomeGymDbContext.Professores.Add(professor);
-            _awesomeGymDbContext.SaveChanges();
-
             _awesomeGymDbContext.Alunos.Add(aluno);
             _awesomeGymDbContext.SaveChanges();
 
-            return NoContent();
+            return CreatedAtAction(nameof(GetById), aluno, new { id = aluno.Id });
         }
 
         // api/alunos/4
         [HttpPut("{id}")]
-        public IActionResult Put(int id)
+        public IActionResult Put(int id, [FromBody] Aluno aluno)
         {
             return Ok();
         }

@@ -25,7 +25,7 @@ namespace AwesomeGym.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetById(int id)
         {
             var unidade = _awesomeGymDbContext.Unidades.SingleOrDefault(u => u.Id == id);
 
@@ -43,11 +43,11 @@ namespace AwesomeGym.API.Controllers
             _awesomeGymDbContext.Unidades.Add(unidade);
             _awesomeGymDbContext.SaveChanges();
 
-            return NoContent();
+            return CreatedAtAction(nameof(GetById), unidade, new { id = unidade.Id });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id)
+        public IActionResult Put(int id, [FromBody] Unidade unidade)
         {
             return Ok();
         }
