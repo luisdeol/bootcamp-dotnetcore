@@ -1,66 +1,57 @@
 ﻿using AwesomeGym.API.Entidades;
 using AwesomeGym.API.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace AwesomeGym.API.Controllers
 {
     [ApiController]
-    [Route("api/alunos")]
-    public class AlunosController : ControllerBase
+    [Route("api/unidades")]
+    public class UnidadesController : ControllerBase
     {
         private readonly AwesomeGymDbContext _awesomeGymDbContext;
-        public AlunosController(AwesomeGymDbContext awesomeDbContext)
+        public UnidadesController(AwesomeGymDbContext awesomeDbContext)
         {
             _awesomeGymDbContext = awesomeDbContext;
         }
-        // api/alunos
+
+        // api/unidades
         [HttpGet]
         public IActionResult Get()
         {
-            var alunos = _awesomeGymDbContext.Alunos.ToList();
+            var unidades = _awesomeGymDbContext.Unidades.ToList();
 
-            return Ok(alunos);
+            return Ok(unidades);
         }
 
-        // api/alunos/4
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var aluno = _awesomeGymDbContext.Alunos.SingleOrDefault(u => u.Id == id);
+            var unidade = _awesomeGymDbContext.Unidades.SingleOrDefault(u => u.Id == id);
 
-            if (aluno == null)
+            if (unidade == null)
             {
                 return NotFound();
             }
 
-            return Ok(aluno);
+            return Ok(unidade);
         }
 
-        // api/alunos
         [HttpPost]
-        public IActionResult Post([FromBody] Aluno aluno)
+        public IActionResult Post([FromBody]Unidade unidade)
         {
-            var professor = new Professor("professor 1", "endereco 1 ", aluno.IdUnidade);
-            _awesomeGymDbContext.Professores.Add(professor);
-            _awesomeGymDbContext.SaveChanges();
-
-            _awesomeGymDbContext.Alunos.Add(aluno);
+            _awesomeGymDbContext.Unidades.Add(unidade);
             _awesomeGymDbContext.SaveChanges();
 
             return NoContent();
         }
 
-        // api/alunos/4
         [HttpPut("{id}")]
         public IActionResult Put(int id)
         {
             return Ok();
         }
 
-        // api/alunos/4
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

@@ -1,5 +1,7 @@
+using AwesomeGym.API.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,8 +23,15 @@ namespace AwesomeGym.API
         {
             services.AddSwaggerGen(c =>
                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AwesomeGym API", Version = "v1" })
-           );
+            );
 
+            var connectionString = Configuration.GetConnectionString("AwesomeGymCn");
+
+            //services.AddDbContext<AwesomeGymDbContext>(options =>
+            //    options.UseInMemoryDatabase("AwesomeGymDb"));
+
+            services.AddDbContext<AwesomeGymDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
             services.AddControllers();
         }
