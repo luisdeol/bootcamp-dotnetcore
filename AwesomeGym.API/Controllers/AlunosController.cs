@@ -63,7 +63,7 @@ namespace AwesomeGym.API.Controllers
             _awesomeGymDbContext.Alunos.Add(aluno);
             _awesomeGymDbContext.SaveChanges();
 
-            return CreatedAtAction(nameof(GetById), alunoInputModel, new { id = alunoInputModel.Id });
+            return CreatedAtAction(nameof(GetById), alunoInputModel, new { id = aluno.Id });
         }
 
         // api/alunos/4
