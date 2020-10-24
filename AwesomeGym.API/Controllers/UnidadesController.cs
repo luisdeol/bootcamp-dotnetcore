@@ -1,7 +1,9 @@
 ﻿using AwesomeGym.API.Entidades;
 using AwesomeGym.API.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AwesomeGym.API.Controllers
 {
@@ -47,15 +49,18 @@ namespace AwesomeGym.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Unidade unidade)
+        public async Task<IActionResult> Put(int id, [FromBody] Unidade unidade)
         {
-            return Ok();
-        }
+            if (!await _awesomeGymDbContext.Unidades.AnyAsync(u => u.Id == id))
+            {
+                return NotFound();
+            }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            return Ok();
+            // _awesomeGymDbContext.Unidades.Update(unidade);
+            _awesomeGymDbContext.Entry(unidade).State = EntityState.Modified;
+            await _awesomeGymDbContext.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

@@ -34,6 +34,9 @@ namespace AwesomeGym.API
                 options.UseSqlServer(connectionString));
 
             services.AddControllers();
+            //.AddNewtonsoftJson(options =>
+            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //    ); // pacote Microsoft.AspNetCore.Mvc.NewtonsoftJson
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

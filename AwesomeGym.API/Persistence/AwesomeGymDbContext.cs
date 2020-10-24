@@ -1,4 +1,5 @@
 ﻿using AwesomeGym.API.Entidades;
+using AwesomeGym.API.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace AwesomeGym.API.Persistence
@@ -17,32 +18,9 @@ namespace AwesomeGym.API.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Aluno>()
-                .HasKey(a => a.Id);
-
-            modelBuilder.Entity<Professor>()
-                .HasKey(a => a.Id);
-
-            modelBuilder.Entity<Professor>()
-                .HasMany(p => p.Alunos)
-                .WithOne(a => a.Professor)
-                .HasForeignKey(a => a.IdProfessor)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Unidade>()
-                .HasKey(a => a.Id);
-
-            modelBuilder.Entity<Unidade>()
-                .HasMany(u => u.Alunos)
-                .WithOne(a => a.Unidade)
-                .HasForeignKey(a => a.IdUnidade)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Unidade>()
-               .HasMany(u => u.Professores)
-               .WithOne(p => p.Unidade)
-               .HasForeignKey(a => a.IdUnidade)
-               .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.ApplyConfiguration(new UnidadeConfiguration());
+            modelBuilder.ApplyConfiguration(new AlunoConfiguration());
+            modelBuilder.ApplyConfiguration(new ProfessorConfiguration());
         } 
     }
 }

@@ -14,16 +14,26 @@ namespace AwesomeGym.API.Entidades
             Status = StatusAlunoEnum.Ativo;
         }
 
-        public int Id { get; set; }
-        public string Nome { get; set; }
+        public int Id { get; private set; }
+        public string Nome { get; private set; }
         public string Endereco { get; set; }
-        public DateTime DataNascimento { get; set; }
-        public StatusAlunoEnum Status { get; set; }
+        public DateTime DataNascimento { get; private set; }
+        public StatusAlunoEnum Status { get; private set; }
 
-        public int IdUnidade { get; set; }
+        public int IdUnidade { get; private set; }
         public Unidade Unidade { get; private set; }
 
-        public int IdProfessor { get; set; }
+        public int IdProfessor { get; private set; }
         public Professor Professor { get; private set; }
+
+        public void MudarStatusParaInativo()
+        {
+            if (Status != StatusAlunoEnum.Ativo)
+            {
+                throw new Exception("Estado invalido.");
+            }
+
+            Status = StatusAlunoEnum.Inativo;
+        }
     }
 }
